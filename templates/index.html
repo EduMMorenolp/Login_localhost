@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Mini Servidor Crear Cuentas Usuarios </title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Manrope:wght@200&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <!-- FORMULARIO Cuenta -->
+
+    <div class="container text-center feature cuenta">
+        <h2>Crear una cuenta</h2>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registroModal">
+            Registrarse
+        </button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+            Iniciar Sesión
+        </button>
+        <!-- Modal -->
+        <form action="/registrar" method="post">
+            <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="registroModalLabel">Registro de Cuenta</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Correo electrónico</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contrasena" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="contrasena" name="contrasena"
+                                        required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Registrarse</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- Modal de Inicio de Sesión -->
+        <form action="/iniciar_sesion" method="post">
+            <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="emailInicioSesion" class="form-label">Correo electrónico</label>
+                                    <input type="emailInicioSesion" class="form-control" id="emailInicioSesion"
+                                        name="emailInicioSesion" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contrasenaSesion" class="form-label">Contraseña</label>
+                                    <input type="passwordSesion" class="form-control" id="contrasenaSesion"
+                                        name="contrasenaSesion" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container text-center feature cuenta">
+        <div class="row">
+            <h1> Cuentas en el Servidor </h1>
+            <button id="ver-cuentas-btn" class="btn btn-primary">Ver Cuentas</button>
+            <table class="table table-striped" id="cuentas-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Correo electrónico</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de la tabla se generarán dinámicamente con JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+        crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#registro-form").submit(function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "/registrar",
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        alert(response);
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error: " + error);
+                    },
+                });
+            });
+
+            $("#login-form").submit(function (event) {
+                event.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "/iniciar_sesion",
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        console.log("Iniciando")
+                        alert("Mensaje del servidor: " + response);
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error: " + error);
+                    },
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $("#ver-cuentas-btn").click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/cuentas", // Asegúrate de que esta URL sea la correcta
+                    success: function (response) {
+                        const cuentas = response.cuentas;
+                        console.log(cuentas);
+                        const tableBody = $("#cuentas-table tbody");
+
+                        tableBody.empty(); // Limpia cualquier contenido anterior
+
+                        for (const cuenta of cuentas) {
+                            const row = $("<tr>");
+                            row.append($("<td>").text(cuenta[0])); // Accede al nombre en el índice 0
+                            row.append($("<td>").text(cuenta[1])); // Accede al correo en el índice 1
+                            tableBody.append(row);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error al cargar las cuentas: " + error);
+                    },
+                });
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>
