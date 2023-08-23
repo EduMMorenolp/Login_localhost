@@ -10,6 +10,10 @@ Este proyecto es un ejemplo simple de un sistema de inicio de sesión desarrolla
 - Muestra mensajes de éxito o error en la página según la verificación de las credenciales.
 - Proporciona una experiencia de usuario fluida sin necesidad de recargar la página.
 
+## Captura de Pantalla
+
+![Captura de Pantalla](Pagina.png)
+
 ## Instrucciones de Uso
 
 1. Clone este repositorio en su máquina local.
